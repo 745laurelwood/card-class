@@ -37,7 +37,7 @@ export { GameLog, LastMoveBanner, FeltFooterSlot, colorizeSuits } from './chrome
 export { ChatRoom } from './chrome/ChatRoom';
 export type { ChatRoomProps } from './chrome/ChatRoom';
 export {
-  LobbyShell, LobbyNotice, ResumeSessionCard, SeatRow, TeamToggle,
+  LobbyShell, LobbyPanel, LobbyNotice, ResumeSessionCard, SeatRow, TeamToggle,
   lobbyInputClass, lobbyInputStyle,
 } from './chrome/lobby';
 

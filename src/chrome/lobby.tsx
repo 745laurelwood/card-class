@@ -16,26 +16,44 @@ export const lobbyInputStyle: React.CSSProperties = {
   color: 'var(--fg)',
 };
 
-/** Full-page lobby frame: patterned background, centred glass panel, title. */
-export function LobbyShell({ title, subtitle, children }: {
-  title: React.ReactNode;
-  subtitle?: React.ReactNode;
-  children: React.ReactNode;
-}) {
+/** Full-page lobby frame: patterned background, contents centred. */
+export function LobbyShell({ children }: { children: React.ReactNode }) {
   return (
     <div
       className="min-h-screen min-h-dvh royal-bg flex items-center justify-center relative overflow-hidden px-4 py-6"
       style={{ color: 'var(--fg)' }}
     >
-      <div className="relative z-10 glass-panel p-6 sm:p-8 rounded-2xl max-w-md w-full text-center">
+      {children}
+    </div>
+  );
+}
+
+/**
+ * A glass panel inside the shell. `title` renders as the big accent heading
+ * for a landing panel; a room panel that just needs a header passes `heading`
+ * instead. `wide` is the roomier variant used once players are seated.
+ */
+export function LobbyPanel({ title, subtitle, heading, wide = false, children }: {
+  title?: React.ReactNode;
+  subtitle?: React.ReactNode;
+  heading?: React.ReactNode;
+  wide?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className={`relative z-10 glass-panel p-6 sm:p-8 rounded-2xl w-full ${wide ? 'max-w-xl' : 'max-w-md text-center'}`}>
+      {title && (
         <h1 className="text-4xl sm:text-5xl font-display mb-1" style={{ color: 'var(--accent)' }}>{title}</h1>
-        {subtitle && (
-          <h2 className="text-xs sm:text-sm mb-7 tracking-[0.22em] uppercase" style={{ color: 'var(--dim)' }}>
-            {subtitle}
-          </h2>
-        )}
-        {children}
-      </div>
+      )}
+      {subtitle && (
+        <h2 className="text-xs sm:text-sm mb-7 tracking-[0.22em] uppercase" style={{ color: 'var(--dim)' }}>
+          {subtitle}
+        </h2>
+      )}
+      {heading && (
+        <h2 className="text-2xl sm:text-3xl font-display text-center mb-5" style={{ color: 'var(--accent)' }}>{heading}</h2>
+      )}
+      {children}
     </div>
   );
 }

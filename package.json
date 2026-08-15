@@ -1,6 +1,6 @@
 {
   "name": "@laurelwood/card-class",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared skin for the Laurelwood card games: design tokens, card rendering, table layout and the chrome around them.",
   "license": "MIT",
   "repository": {
