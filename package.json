@@ -1,6 +1,6 @@
 {
   "name": "@laurelwood/card-class",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Shared skin for the Laurelwood card games: design tokens, card rendering, table layout and the chrome around them.",
   "license": "MIT",
   "repository": {
@@ -24,6 +24,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json && node scripts/copy-styles.mjs",
+    "smoke": "node --input-type=module -e \"import('./dist/index.js').then(m=>{if(Object.keys(m).length<40)throw new Error('export surface shrank');console.log('dist imports under node, '+Object.keys(m).length+' exports')})\"",
     "typecheck": "tsc --noEmit",
     "prepare": "npm run build"
   },

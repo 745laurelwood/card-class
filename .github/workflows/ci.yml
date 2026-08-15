@@ -38,3 +38,6 @@ jobs:
 
       - name: "🚀 Build the package"
         run: npm run build
+
+      - name: "🔬 Smoke-test the built package under Node"
+        run: npm run smoke

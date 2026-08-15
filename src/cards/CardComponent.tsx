@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card } from '../lib/types';
-import { SUIT_COLORS, SUIT_SYMBOLS, getRankLabel } from '../lib/deck';
-import { Z_CARD_SELECTED } from '../lib/ui';
-import { FaceArt } from './FaceArt';
+import { Card } from '../lib/types.js';
+import { SUIT_COLORS, SUIT_SYMBOLS, getRankLabel } from '../lib/deck.js';
+import { Z_CARD_SELECTED } from '../lib/ui.js';
+import { FaceArt } from './FaceArt.js';
 
 /** Colour a game can pull the selection ring towards. */
 export type SelectionTone = 'accent' | 'red' | 'gold';

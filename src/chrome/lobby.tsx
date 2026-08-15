@@ -1,5 +1,5 @@
 import React from 'react';
-import { TEAM_LABELS, TEAM_TEXT_COLORS } from '../lib/ui';
+import { TEAM_LABELS, TEAM_TEXT_COLORS } from '../lib/ui.js';
 
 /**
  * Lobby pieces, not a lobby. Every game's lobby wires up different state and

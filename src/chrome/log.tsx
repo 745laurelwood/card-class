@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Z_HUD } from '../lib/ui';
+import { Z_HUD } from '../lib/ui.js';
 
 /**
  * Walks a log string and wraps ♥/♦ glyphs in a red span so card mentions

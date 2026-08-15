@@ -1,4 +1,4 @@
-import { Suit } from './types';
+import { Suit } from './types.js';
 
 /**
  * Rank labels. Both ace conventions are covered: 1 for games that deal it

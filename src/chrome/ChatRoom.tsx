@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChatMessage } from '../lib/types';
-import { CHAT_MAX_LEN, Z_HUD } from '../lib/ui';
+import { ChatMessage } from '../lib/types.js';
+import { CHAT_MAX_LEN, Z_HUD } from '../lib/ui.js';
 
 export interface ChatRoomProps {
   messages: ChatMessage[];
