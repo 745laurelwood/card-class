@@ -1,0 +1,11 @@
+/* The whole skin. Import this once, as early as possible:
+     import '@laurelwood/card-class/styles.css';
+
+   To take only part of it, import the pieces instead:
+     import '@laurelwood/card-class/styles/tokens.css';
+     import '@laurelwood/card-class/styles/table.css';
+     import '@laurelwood/card-class/styles/mobile.css'; */
+
+@import './tokens.css';
+@import './table.css';
+@import './mobile.css';

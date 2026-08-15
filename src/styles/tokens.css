@@ -1,0 +1,63 @@
+/* ── Design tokens ────────────────────────────────────────────────
+   Every colour, font and inset the rest of the package reads. A game
+   overrides any of them by redefining the same custom property on
+   :root in a stylesheet loaded after this one.
+   ──────────────────────────────────────────────────────────────── */
+
+:root {
+  --bg:            #0a2c3f;
+  --bg-1:          #10141a;
+  --bg-2:          #161b22;
+  --felt:          #0d1821;
+  --felt-rim:      #162633;
+  --fg:            #e6e8ec;
+  --fg-soft:       #b4bac4;
+  --dim:           #7d848e;
+  --dimmer:        #4a5058;
+  --line:          #1b2129;
+  --line-soft:     #151a21;
+  --accent:        #6fb0ff;
+  --accent-soft:   #3a5a85;
+  --accent-glow:   rgba(111,176,255,0.25);
+  --gold:          #d8b061;
+  --good:          #7fd7a9;
+  --red:           #e8929a;
+
+  /* Aliases some inline styles still reach for. */
+  --color-bg:       var(--bg);
+  --color-bg-inner: var(--bg-1);
+  --color-felt:     var(--felt);
+  --color-felt-pat: var(--accent-soft);
+  --glass-bg:       rgba(16, 20, 26, 0.78);
+
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+body { touch-action: manipulation; }
+
+/* iOS Safari auto-zooms <input> fields whose font-size is below 16px.
+   Keep all form controls at >= 16px on small viewports to prevent the
+   page (and the chat drawer) from being scaled out of frame on focus. */
+@media (max-width: 720px) {
+  input, textarea, select { font-size: 16px; }
+}
+
+h1, h2, h3, .font-display {
+  font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}

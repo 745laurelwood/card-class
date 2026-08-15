@@ -1,0 +1,164 @@
+/* ── Table surfaces, chrome and the desktop grid ──────────────────
+   The three tunables that differ between games are custom properties
+   rather than hard-coded values: a game that wants tighter gutters or
+   a shorter hand tray sets them on :root instead of forking the rule.
+   ──────────────────────────────────────────────────────────────── */
+
+:root {
+  --grid-side:   minmax(9rem, 1fr);   /* left / right seat columns  */
+  --grid-top:    minmax(9rem, auto);  /* top seat row               */
+  --grid-bottom: minmax(10rem, auto); /* own-hand row               */
+  --hand-scroll-padding: 32px 20px 40px;
+}
+
+.royal-bg {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(111,176,255,0.06), transparent 55%),
+    radial-gradient(circle at 50% 100%, rgba(111,176,255,0.03), transparent 60%);
+}
+
+.table-felt {
+  background-color: var(--felt);
+  background-image:
+    radial-gradient(ellipse 70% 60% at 50% 50%, var(--felt-rim), var(--felt) 80%),
+    radial-gradient(circle at 25% 30%, rgba(111,176,255,0.045), transparent 40%),
+    radial-gradient(circle at 78% 72%, rgba(111,176,255,0.035), transparent 40%);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.55);
+}
+
+.card-shadow {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.08) inset,
+    0 2px 6px rgba(0, 0, 0, 0.55);
+}
+
+.card-transition {
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.card-playable { position: relative; }
+.card-playable:hover { transform: translateY(-0.5rem) !important; }
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}
+
+/* Subtle pill-style chip used across HUD / banners */
+.pill-chip {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.last-move-banner {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+@media (max-width: 720px) {
+  .last-move-banner {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+  .last-move-banner-wrap {
+    bottom: 14px !important;
+    transform: translate(-50%, 0) !important;
+  }
+}
+
+/* Primary gradient button (accent) */
+.btn-accent {
+  background: linear-gradient(180deg, #7cbaff 0%, var(--accent) 100%);
+  color: #06121f;
+  border: 1px solid var(--accent);
+  box-shadow:
+    0 4px 12px rgba(111,176,255,0.32),
+    0 0 0 1px rgba(111,176,255,0.3) inset,
+    0 -1px 0 rgba(0,0,0,0.1) inset;
+}
+.btn-accent:hover:not(:disabled) { filter: brightness(1.06); }
+.btn-accent:active:not(:disabled) { transform: scale(0.98); }
+
+/* Hide scrollbar but keep scroll functionality */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Horizontal hand scroll. Page stays put, only the hand slides.
+   Top/bottom padding gives headroom for the selected-card lift so it
+   doesn't clip against overflow-y:hidden. */
+.hand-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
+  padding: var(--hand-scroll-padding);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Desktop table grid ───────────────────────────────────────── */
+.game-grid {
+  display: grid;
+  grid-template-areas:
+    ".     top    ."
+    "left  center right"
+    ".     bottom .";
+  grid-template-columns: var(--grid-side) minmax(0, 3fr) var(--grid-side);
+  grid-template-rows:    var(--grid-top) minmax(0, 1fr) var(--grid-bottom);
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  gap: 0;
+  padding-top: var(--safe-t);
+  padding-bottom: var(--safe-b);
+  padding-left: var(--safe-l);
+  padding-right: var(--safe-r);
+  overflow: hidden;
+}
+.game-area-top    { grid-area: top;    min-height: 0; }
+.game-area-left   { grid-area: left;   min-height: 0; }
+.game-area-center { grid-area: center; min-height: 0; min-width: 0; }
+.game-area-right  { grid-area: right;  min-height: 0; }
+.game-area-bottom { grid-area: bottom; min-height: 0; }
+
+/* Horizontal strip for tables that seat more than one opponent up top
+   (5- and 6-player games). */
+.top-strip {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: nowrap;
+  padding: 0 0.5rem;
+}
+.top-strip > * { flex: 0 1 auto; min-width: 0; }
+
+/* Compact desktop layout for short viewports (e.g. browser zoomed in).
+   Games with their own felt-centre tiles add matching rules alongside
+   these; the package only compacts what it ships. */
+@media (max-height: 820px) {
+  .game-grid { grid-template-rows: minmax(7rem, auto) minmax(0, 1fr) minmax(8rem, auto) !important; }
+  .game-area-top, .game-area-bottom { padding-top: 0.25rem !important; padding-bottom: 0.25rem !important; }
+  .opp-name  { font-size: 1rem !important; }
+  .opp-count { font-size: 0.7rem !important; padding: 0 0.5rem !important; margin-top: 0 !important; }
+  .opp-turn  { height: 1rem !important; margin-bottom: 0 !important; }
+  .perspective-wrapper { height: 3rem !important; margin-bottom: 0.5rem !important; }
+}
+@media (max-height: 680px) {
+  .game-grid { grid-template-rows: minmax(5rem, auto) minmax(0, 1fr) minmax(6rem, auto) !important; }
+  .game-area-top .w-14, .game-area-top .sm\:w-16, .game-area-top .md\:w-20, .game-area-top .lg\:w-24,
+  .game-area-bottom .w-14, .game-area-bottom .sm\:w-16, .game-area-bottom .md\:w-20, .game-area-bottom .lg\:w-24,
+  .game-area-left .w-14, .game-area-left .sm\:w-16, .game-area-left .md\:w-20, .game-area-left .lg\:w-24,
+  .game-area-right .w-14, .game-area-right .sm\:w-16, .game-area-right .md\:w-20, .game-area-right .lg\:w-24 {
+    width: 3rem !important; height: 4.25rem !important;
+  }
+  .opp-name  { font-size: 0.85rem !important; }
+  .perspective-wrapper { height: 2.5rem !important; }
+}
