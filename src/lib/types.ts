@@ -24,7 +24,12 @@ export interface ChatMessage {
   id: string;
   playerIndex: number;
   name: string;
-  team: 0 | 1;
+  /**
+   * Sender's team, used to tint their name. Optional: 350 calls partners
+   * mid-round rather than seating fixed teams, so its messages carry no
+   * team and the name renders in the neutral accent.
+   */
+  team?: 0 | 1;
   text: string;
   ts: number;
 }

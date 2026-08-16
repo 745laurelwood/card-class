@@ -96,7 +96,7 @@ export function ChatRoom({ messages, myIndex, unread, onOpen, onClose, onSend }:
           )}
           {messages.map(m => {
             const mine = m.playerIndex === myIndex;
-            const nameColor = m.team === 0 ? 'var(--accent)' : 'var(--red)';
+            const nameColor = m.team === 1 ? 'var(--red)' : 'var(--accent)';
             return (
               <div key={m.id} className={`flex flex-col ${mine ? 'items-end' : 'items-start'}`}>
                 <span className="text-[10px] uppercase tracking-[0.12em]" style={{ color: nameColor }}>
