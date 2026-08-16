@@ -113,9 +113,7 @@ export const CardComponent: React.FC<CardComponentProps> = ({
         relative rounded-lg card-shadow select-none card-transition
         ${sizeClass}
         ${onClick ? 'cursor-pointer' : ''}
-        ${isSelected
-          ? 'ring-2 -translate-y-2 sm:-translate-y-4'
-          : 'ring-1 ring-black/10'}
+        ${isSelected ? 'ring-2 card-selected' : 'ring-1 ring-black/10'}
         ${isPlayable && !isSelected ? 'card-playable' : ''}
         ${frameClassName}
         flex flex-col justify-between p-1 sm:p-1.5

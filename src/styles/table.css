@@ -9,6 +9,15 @@
   --grid-top:    minmax(9rem, auto);  /* top seat row               */
   --grid-bottom: minmax(10rem, auto); /* own-hand row               */
   --hand-scroll-padding: 32px 20px 40px;
+  --card-lift:    -0.5rem;  /* how far a selected card rises          */
+  --card-lift-sm: -1rem;    /* ...from the sm breakpoint up           */
+}
+
+/* Lift for a selected card. A class rather than utilities so a game can
+   retune it with the tokens above instead of fighting Tailwind. */
+.card-selected { transform: translateY(var(--card-lift)); }
+@media (min-width: 640px) {
+  .card-selected { transform: translateY(var(--card-lift-sm)); }
 }
 
 .royal-bg {
