@@ -4,10 +4,12 @@ The shared skin behind the Laurelwood card games. Design tokens, card rendering,
 
 Three games — [29](https://github.com/745laurelwood/29), [seep](https://github.com/745laurelwood/seep) and [350](https://github.com/745laurelwood/350) — grew from the same copy-pasted frontend and drifted apart in the usual way. The felt, the cards, the log, the chat and the lobby were the same in all three; a fix in one never reached the other two. This is that common half, kept in one place.
 
+All three now run on it. Between them they deleted about 4,800 lines, most of it three copies of the same stylesheet.
+
 ## Install
 
 ```bash
-npm i github:745laurelwood/card-class#v0.1.0
+npm i github:745laurelwood/card-class#v0.5.0
 ```
 
 Pin the tag. Each game upgrades when it wants to, and nothing moves under a game that isn't looking.
@@ -39,11 +41,11 @@ Importing the module itself never touches the page. The CSS import is the only s
 
 **Cards.** `CardComponent` draws a card face-up or face-down, and `FaceArt` draws the J/Q/K line art. Both ace conventions are understood: rank 1 and rank 14 both label as `A`.
 
-**Chrome.** `GameLog`, `ChatRoom`, `LastMoveBanner`, and the `colorizeSuits` helper that tints ♥/♦ mentions red.
+**Chrome.** `GameLog`, `ChatRoom`, `LastMoveBanner`, and the `colorizeSuits` helper that tints ♥/♦ mentions red. `FeltFooterSlot` is the strip along the bottom edge of the felt that the banner sits in; a game with its own prompt to put there renders it into the same slot so the two cannot collide.
 
-**Layout.** `TableGrid` and `Felt` for desktop, `PhoneFrame` and its HUD parts for mobile.
+**Layout.** `TableGrid` and `Felt` for desktop. `PhoneFrame`, `PhoneHud`, `PhoneHudButton`, `PhoneScoreCell` and `PhoneScoreDivider` for mobile. A table seating more than one opponent up top wraps them in a `top-strip`, which is what 350 does with five and six players.
 
-**Lobby pieces.** `LobbyShell`, `LobbyNotice`, `ResumeSessionCard`, `SeatRow`, `TeamToggle`. Pieces rather than a whole lobby, because every game wires up different state behind the same panel.
+**Lobby pieces.** `LobbyShell` is the page frame, `LobbyPanel` the glass panel inside it — narrow for a landing screen, `wide` for a room. Then `LobbyNotice`, `ResumeSessionCard`, `SeatRow` and `TeamToggle`. Pieces rather than a whole lobby, because every game wires up different state behind the same panel.
 
 **Behaviour.** `flipTransition` for FLIP card animation, `sounds` for the Web Audio cues, and `createSessionStore` for reconnect memory.
 
@@ -58,7 +60,7 @@ Every colour is a custom property on `:root`, so a game recolours itself by rede
 }
 ```
 
-The desktop grid has three more, for games that want tighter gutters or a shorter hand tray:
+The table has more, for games that want tighter gutters, a shorter hand tray, or a different lift on a selected card. These are Seep's, which seats four players whose side seats hold four cards rather than a fanned hand:
 
 ```css
 :root {
@@ -66,10 +68,21 @@ The desktop grid has three more, for games that want tighter gutters or a shorte
   --grid-top:    minmax(0, auto);
   --grid-bottom: minmax(0, auto);
   --hand-scroll-padding: 22px 12px 6px;
+  --card-lift:    -0.5rem;  /* how far a selected card rises   */
+  --card-lift-sm: -0.5rem;  /* ...from the sm breakpoint up    */
 }
 ```
 
-`CardComponent` takes a `selectionTone` of `accent`, `red` or `gold` for the ring on a selected card, and a `frameClassName` for game-specific framing such as marking a card as part of a built pile.
+The lift is a class rather than a pair of Tailwind utilities for exactly this reason: utilities collide by stylesheet order, not by the order they appear in a `className`, so a consumer could not have overridden them.
+
+`CardComponent` takes a `selectionTone` of `accent`, `red` or `gold` for the ring on a selected card, and a `frameClassName` for game-specific framing such as marking a card as part of a built pile. Seep uses both, through a five-line wrapper, so none of its call sites had to change.
+
+Anything a game cannot express through a token goes in its own stylesheet, imported **after** the package's. Order matters: Vite injects the package CSS at runtime in dev, which lands after anything sitting in the document head, so an inline `<style>` block cannot be relied on to win.
+
+```ts
+import '@laurelwood/card-class/styles.css';
+import './styles/my-game.css';
+```
 
 ## Starting a new game from it
 
@@ -82,7 +95,10 @@ Games install by tag, so a change is only live once it is tagged.
 ```bash
 npm run typecheck
 npm run build
-git tag v0.2.0 && git push origin v0.2.0
+npm run smoke
+git tag v0.6.0 && git push origin v0.6.0
 ```
 
 Then bump the dependency in whichever game wants it. A game left on an older tag keeps working.
+
+`npm run smoke` imports the built output under plain Node. It exists because `tsc` leaves relative specifiers as written, so it is easy to ship ESM that a bundler resolves and Node does not — which is how the first version shipped, and it was invisible to both the type-check and the build.
