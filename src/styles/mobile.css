@@ -123,6 +123,7 @@
   font-family: 'Fredoka'; font-weight: 600; font-size: 15px;
 }
 .m-opp.b .av { background: var(--red); }
+.m-opp.bidder .av { background: var(--gold); }
 .m-opp.turn .av {
   box-shadow: 0 0 0 3px var(--accent-glow);
 }
@@ -189,6 +190,10 @@
 .m-me-chip .av.b {
   background: var(--red);
   box-shadow: 0 0 0 3px rgba(232, 146, 154, 0.25);
+}
+.m-me-chip .av.bidder {
+  background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(216,176,97,0.25);
 }
 .m-me-chip .who { font-weight: 700; font-size: 13px; color: var(--fg); }
 .m-me-chip .who small {
@@ -272,6 +277,12 @@
   50%      { opacity: 0.5; transform: scale(0.92); }
 }
 .animate-accent-pulse { animation: accent-pulse 1.6s ease-in-out infinite; }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fade-in 0.3s ease-out both; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
